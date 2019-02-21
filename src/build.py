@@ -20,11 +20,13 @@ class Builder:
         self.num_v = len(vars)
         self.r = r
 
-    def write_hisat(self, filename):
+    def write_hisat(self, variants, filename):
         '''
         Write variants in HISAT2 format for graph genome
+        variants: path to 1ksnp file
+        filename: hisat2 snp file to write to
         '''
-        iohelp.write_vars(filename)
+        iohelp.write_vars(variants, [v.pos+1 for v in self.vars], filename)
 
     def write_erg(self, filename):
         '''
@@ -99,7 +101,7 @@ def go(args):
         builder = Builder(genome, variants, r)
 
     if args.hisat:
-        builder.write_hisat(args.hisat)
+        builder.write_hisat(args.vars, args.hisat)
     if args.erg:
         builder.write_erg(args.erg)
 
